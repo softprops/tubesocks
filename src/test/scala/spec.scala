@@ -2,7 +2,7 @@ package tubesocks
 
 import org.specs._
 
-object TubsocksSpec extends Specification
+object TubesocksSpec extends Specification
   with unfiltered.spec.netty.Served {
 
   import unfiltered.netty.websockets.Planify
