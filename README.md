@@ -4,13 +4,15 @@ A comfortable _and_ fashionable way to have bi-directional conversations with mo
 
 ## install
 
+...
+
 ## usage
 
     import tubesocks._
-    Channel("ws://host.com") {
+    val s = Channel.uri("ws://host.com") {
       case Open(s) => s.send("I'm here")
       case Message(t) => println("server says %s" format t)
       case Close(s) => println("we're done")
     }
-
+    
 Doug Tangren (softprops) 2012
