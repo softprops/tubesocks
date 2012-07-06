@@ -9,7 +9,6 @@ trait Socket {
   def send(s: String): Unit
   def open: Boolean
   def close: Unit
-  def apply(h: Channe.Handler)
 }
 
 class DefaultSocket(underlying: WebSocket) extends Socket {
