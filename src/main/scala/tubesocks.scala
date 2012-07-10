@@ -82,7 +82,7 @@ object Channel {
 
   private def defaultConfig =
     new AsyncHttpClientConfig.Builder()
-      .userAgent("tubesocks/0.1.0")
+      .setUserAgent("tubesocks/0.1.0")
 
   private def mkClient(config: AsyncHttpClientConfig.Builder) =
     new AsyncHttpClient(config.build())
