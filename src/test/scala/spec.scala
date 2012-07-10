@@ -23,7 +23,7 @@ object TubesocksSpec extends Specification
       Channel.uri(host.to_uri.toString.replace("http", "ws")) {
         case tubesocks.Open(s) =>
           s.send("i'm open")
-        case tubesocks.Message(t) =>
+        case tubesocks.Message(t, _) =>
           m += ("rec" -> t)
           l.countDown
       }

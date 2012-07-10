@@ -2,9 +2,12 @@ package tubesocks
 
 import com.ning.http.client.{ AsyncHttpClient, AsyncHttpClientConfig }
 import com.ning.http.client.websocket.{
-  WebSocket, WebSocketTextListener, WebSocketUpgradeHandler }
+  WebSocket, DefaultWebSocketListener, WebSocketUpgradeHandler }
 import java.net.URI
 
+// we are using the netty client
+// the grizly client implements streaming
+// consider this...
 trait Socket {
   def send(s: String): Unit
   def open: Boolean
@@ -17,10 +20,12 @@ class DefaultSocket(underlying: WebSocket) extends Socket {
     else ()
   def open = underlying.isOpen
   def close = if (underlying.isOpen) underlying.close else ()
+  override def toString() = "%s(%s)" format(
+    getClass().getName, if(open) "open" else "closed")
 }
 
 sealed trait Event
-case class Message(text: String) extends Event
+case class Message(text: String, socket: Socket) extends Event
 case class Open(socket: Socket) extends Event
 case class Close(socket: Socket) extends Event 
 case class Error(exception: Throwable) extends Event
@@ -37,12 +42,14 @@ object Channel {
     }
     def apply(pf: Handler) = {
       def complete(e: Event) = (pf orElse discard)(e)
-      new WebSocketTextListener {
-        def onMessage(m: String) = complete(Message(m))
-        def onOpen(ws: WebSocket) = complete(Open(new DefaultSocket(ws)))
-        def onClose(ws: WebSocket) = complete(Close(new DefaultSocket(ws)))
-        def onError(t: Throwable) = complete(Error(t))
-        def onFragment(fragment: String, last: Boolean) =
+      // note: we would just use the TextListener below BUT
+      // it's very convenient to make #onMessage(m) respondable
+      new DefaultWebSocketListener {
+        override def onMessage(m: String) = complete(Message(m, new DefaultSocket(this.webSocket)))
+        override def onOpen(ws: WebSocket) = complete(Open(new DefaultSocket(ws)))
+        override def onClose(ws: WebSocket) = complete(Close(new DefaultSocket(ws)))
+        override def onError(t: Throwable) = complete(Error(t))
+        override def onFragment(fragment: String, last: Boolean) =
           complete(if (last) EOF(fragment) else Fragment(fragment))
       }
     }
