@@ -61,6 +61,12 @@ object Channel {
   def uri(str: String) =
     apply(new URI(if (str.startsWith("ws")) str else "ws://%s" format str))_
 
+  /** Default client-configured Socket
+   *  @param uri websocket endpoint
+   *  @param f Handler function */
+  def apply(uri: URI)(f: Handler): Socket =
+    configure(identity)(uri)(f)
+
   /** Provides a means of customizing client configuration
    *  @param conf configuration building function
    *  @param uri websocket endpoint
@@ -73,13 +79,10 @@ object Channel {
                                .addWebSocketListener(Listen(f))
                       .build())
                       .get())
-  /** Default client-configured Socket
-   *  @param uri websocket endpoint
-   *  @param f Handler function */
-  def apply(uri: URI)(f: Handler): Socket =
-    configure(identity)(uri)(f)
 
-  private def defaultConfig = new AsyncHttpClientConfig.Builder()
+  private def defaultConfig =
+    new AsyncHttpClientConfig.Builder()
+      .userAgent("tubesocks/0.1.0")
 
   private def mkClient(config: AsyncHttpClientConfig.Builder) =
     new AsyncHttpClient(config.build())
