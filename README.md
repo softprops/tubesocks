@@ -25,7 +25,7 @@ Here is an `echo` client.
     
 Do you prefer configuring your own transmission?
 
-    import tubesockets._
+    import tubesocks._
     Sock.configure({ b =>
       b.setWebSocketIdleTimeoutInMs(2 * 60 * 1000)
     })(new URI("ws://host.com")) {
