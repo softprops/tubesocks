@@ -4,6 +4,8 @@ name := "tubesocks"
 
 version := "0.1.0-SNAPSHOT"
 
+description := "A comfortable and fashionable way to have bi-directional conversations with modern web servers"
+
 libraryDependencies += "com.ning" % "async-http-client" % "1.7.5"
 
 seq(lsSettings :_*)
