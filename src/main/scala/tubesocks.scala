@@ -32,7 +32,8 @@ case class Error(exception: Throwable) extends Event
 case class Fragment(text: String) extends Event
 case class EOF(text: String) extends Event
 
-object Channel {
+/** A builder of sorts for Sockets */
+object Sock {
   /** A partial function signature for handing Socket events */
   type Handler = PartialFunction[Event, Any]
 

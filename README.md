@@ -8,7 +8,7 @@ messages to clients and respoding over an open connection.
 Here is an `echo` client.
 
     import tubesocks._
-    Channel.uri("ws://host") { case Message(m, s) => s.send(m) }
+    Sock.uri("ws://host") { case Message(m, s) => s.send(m) }
 
 ## install
 
@@ -17,7 +17,7 @@ Here is an `echo` client.
 ## usage
 
     import tubesocks._
-    Channel.uri("ws://host.com") {
+    Sock.uri("ws://host.com") {
       case Open(s) => s.send("I'm here")
       case Message(t, s) => println("server says %s" format t)
       case Close(s) => println("we're done")
@@ -26,7 +26,7 @@ Here is an `echo` client.
 Do you prefer configuring your own transmission?
 
     import tubesockets._
-    Channel.configure({ b =>
+    Sock.configure({ b =>
       b.setWebSocketIdleTimeoutInMs(2 * 60 * 1000)
     })(new URI("ws://host.com")) {
       case Message(t, s) =>
