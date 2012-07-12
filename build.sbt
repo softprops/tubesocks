@@ -17,7 +17,7 @@ LsKeys.tags in LsKeys.lsync := Seq("websockets", "http")
 seq(lsSettings :_*)
 
 crossScalaVersions ++= Seq(
-  "2.8.0","2.8.1","2.9.0", "2.9.0-1", "2.9.1.RC1", "2.9.1", "2.9.2")
+  "2.8.2", "2.9.0-1", "2.9.1", "2.9.2")
 
 publishTo := Some(Opts.resolver.sonatypeStaging)
 
