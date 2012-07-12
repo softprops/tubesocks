@@ -12,7 +12,15 @@ Here is an `echo` client.
 
 ## install
 
+### sbt
 
+By hand (cut & paste)
+
+    libraryDependencies += "me.lessis" %% "tubesocks" % "0.1.0"
+
+The [civilized way](https://github.com/softprops/ls#readme)
+
+    ls-install tubesocks
 
 ## usage
 
