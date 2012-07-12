@@ -1,9 +1,10 @@
-## Initial release
+Inititial release of an intentially miminally featured [WebSocket][ws] client.
 
 ### Features
 
-+ You can speak to a [WebSocket][ws] server
-+ A [WebSocket][ws] server can speak to you
++ You can speak to a WebSocket server
++ A WebSocket server can speak to you
++ There are no more features
 
 
 ### Say thanks
@@ -12,6 +13,8 @@
     Sock(wsuri) {
       case Message(msg, ws) => ws.send("Thanks for letting me know")
     }
-
+    
+For more information, see the [readme][rm]
 
 [ws]: http://www.rfc-editor.org/rfc/rfc6455.txt
+[rm]: https://github.com/softprops/tubesocks#readme
