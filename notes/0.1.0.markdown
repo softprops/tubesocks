@@ -1,4 +1,4 @@
-Initial release of an intentially miminally featured [WebSocket][ws] client.
+Initial release of an intentionally minimally featured [WebSocket][ws] client.
 
 ### Features
 
