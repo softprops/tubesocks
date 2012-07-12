@@ -1,0 +1,17 @@
+## Initial release
+
+### Features
+
++ You can speak to a [WebSocket][ws] server
++ A [WebSocket][ws] server can speak to you
+
+
+### Say thanks
+
+    import tubesocks._
+    Sock(wsuri) {
+      case Message(msg, ws) => ws.send("Thanks for letting me know")
+    }
+
+
+[ws]: http://www.rfc-editor.org/rfc/rfc6455.txt
