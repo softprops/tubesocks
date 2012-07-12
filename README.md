@@ -3,7 +3,7 @@
 A comfortable _and_ fashionable way to have bi-directional conversations with modern web servers.
 
 Tubesocks is a snug little interface that wraps [async http client][ahc] which supports an emerging standard protocol for pushing 
-messages to clients and respoding over an open connection.
+messages to clients and responding over an open connection.
 
 Here is an `echo` client.
 
