@@ -17,7 +17,7 @@ object TubesocksSpec extends Specification
 
   "Socks" should {
     "receive messages" in {
-      import java.util.concurrent.CountDownLatch
+      import java.util.concurrent.{ CountDownLatch, TimeUnit }
       var m = scala.collection.mutable.Map.empty[String, String]
       val l = new CountDownLatch(1)
       Sock.uri(host.to_uri.toString.replace("http", "ws")) {
@@ -27,7 +27,7 @@ object TubesocksSpec extends Specification
           m += ("rec" -> t)
           l.countDown
       }
-      l.await
+      l.await(2, TimeUnit.MILLISECONDS)
       m must havePair(("rec", "i'm open"))
     }
   }
