@@ -83,7 +83,7 @@ object Sock {
 
   private def defaultConfig =
     new AsyncHttpClientConfig.Builder()
-      .setUserAgent("tubesocks/0.1.0")
+      .setUserAgent("Tubesocks/%s" format BuildInfo.version)
 
   private def mkClient(config: AsyncHttpClientConfig.Builder) =
     new AsyncHttpClient(config.build())

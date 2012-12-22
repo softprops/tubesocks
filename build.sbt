@@ -2,19 +2,27 @@ organization := "me.lessis"
 
 name := "tubesocks"
 
-version := "0.1.0"
+version := "0.1.1-SNAPSHOT"
 
 description := "A comfortable and fashionable way to have bi-directional conversations with modern web servers"
 
 libraryDependencies ++= Seq(
-  "com.ning" % "async-http-client" % "1.7.5",
-  "net.databinder" %% "unfiltered-netty-websockets" % "0.6.3" % "test",
-  "net.databinder" %% "unfiltered-spec" % "0.6.3" % "test",
+  "com.ning" % "async-http-client" % "1.7.9",
+  "net.databinder" %% "unfiltered-netty-websockets" % "0.6.4" % "test",
+  "net.databinder" %% "unfiltered-spec" % "0.6.4" % "test",
   "org.slf4j" % "slf4j-jdk14" % "1.6.2")
 
 LsKeys.tags in LsKeys.lsync := Seq("websockets", "http")
 
 seq(lsSettings :_*)
+
+seq(buildInfoSettings:_*)
+
+sourceGenerators in Compile <+= buildInfo
+
+buildInfoKeys := Seq[BuildInfoKey](version)
+
+buildInfoPackage := "tubesocks"
 
 crossScalaVersions ++= Seq(
   "2.8.1", "2.8.2", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2")
