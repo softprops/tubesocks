@@ -7,8 +7,12 @@ messages to clients and responding over an open connection.
 
 Here is an `echo` client.
 
-    import tubesocks._
-    Sock.uri("ws://host") { case Message(m, s) => s.send(m) }
+```scala
+import tubesocks._
+Sock.uri("ws://host") {
+  case Message(m, s) => s.send(m)
+}
+```
 
 ## install
 
@@ -16,7 +20,9 @@ Here is an `echo` client.
 
 By hand (cut & paste)
 
-    libraryDependencies += "me.lessis" %% "tubesocks" % "0.1.0"
+```scala
+libraryDependencies += "me.lessis" %% "tubesocks" % "0.1.0"
+```
 
 The [civilized way](https://github.com/softprops/ls#readme)
 
@@ -24,23 +30,26 @@ The [civilized way](https://github.com/softprops/ls#readme)
 
 ## usage
 
-    import tubesocks._
-    Sock.uri("ws://host.com") {
-      case Open(s) => s.send("I'm here")
-      case Message(t, s) => println("server says %s" format t)
-      case Close(s) => println("we're done")
-    }
-    
+```scala
+import tubesocks._
+Sock.uri("ws://host.com") {
+  case Open(s) => s.send("I'm here")
+  case Message(t, s) => println("server says %s" format t)
+  case Close(s) => println("we're done")
+}
+```
+
 Do you prefer configuring your own transmission?
 
-    import tubesocks._
-    Sock.configure({ b =>
-      b.setWebSocketIdleTimeoutInMs(2 * 60 * 1000)
-    })(new URI("ws://host.com")) {
-      case Message(t, s) =>
-        s.send("thanks for the message")
-    }
+```scala
+import tubesocks._
+Sock.configure({ b =>
+  b.setWebSocketIdleTimeoutInMs(2 * 60 * 1000)
+})(new URI("ws://host.com")) {
+  case Message(t, s) => s.send("thanks for the message")
+}
+```
 
-Doug Tangren (softprops) 2012
+Doug Tangren (softprops) 2012-2013
 
 [ahc]: https://github.com/sonatype/async-http-client
