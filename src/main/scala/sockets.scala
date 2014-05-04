@@ -14,9 +14,8 @@ trait Socket {
 class DefaultSocket(underlying: WebSocket) extends Socket {
   def send(s: String) =
     if (underlying.isOpen) underlying.sendTextMessage(s)
-    else ()
   def open = underlying.isOpen
-  def close = if (underlying.isOpen) underlying.close else ()
+  def close = if (underlying.isOpen) underlying.close
   override def toString() = "%s(%s)" format(
     getClass().getName, if(open) "open" else "closed")
 }
