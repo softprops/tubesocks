@@ -31,7 +31,7 @@ object Sock {
       }
     }
 
-    def reconnecting(times: Int, pausing: Int) = ReconnectingListen(time, pausing)
+    def reconnecting(times: Int, pausing: Int) = ReconnectingListen(times, pausing)
 
     def apply(pf: Handler)  = {
       def complete(e: Event) = (pf orElse discard)(e)
