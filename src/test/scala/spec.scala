@@ -1,9 +1,9 @@
 package tubesocks
 
-import org.specs._
+import org.specs2.mutable._
 
 object TubesocksSpec extends Specification
-  with unfiltered.spec.netty.Served {
+  with unfiltered.specs2.netty.Served {
 
   import unfiltered.netty.websockets.Planify
   import unfiltered.netty.websockets.{ Message, Text }

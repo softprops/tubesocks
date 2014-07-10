@@ -8,8 +8,8 @@ description := "A comfortable and fashionable way to have bi-directional convers
 
 libraryDependencies ++= Seq(
   "com.ning" % "async-http-client" % "1.8.12",
-  "net.databinder" %% "unfiltered-netty-websockets" % "0.6.4" % "test",
-  "net.databinder" %% "unfiltered-spec" % "0.6.4" % "test",
+  "net.databinder" %% "unfiltered-netty-websockets" % "0.8.0" % "test",
+  "net.databinder" %% "unfiltered-specs2" % "0.8.0" % "test",
   "org.slf4j" % "slf4j-jdk14" % "1.6.2")
 
 LsKeys.tags in LsKeys.lsync := Seq("websockets", "http")
@@ -24,10 +24,9 @@ buildInfoKeys := Seq[BuildInfoKey](version)
 
 buildInfoPackage := "tubesocks"
 
-crossScalaVersions ++= Seq(
-  "2.8.1", "2.8.2",
-  "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3",
-  "2.10.0", "2.10.1")
+scalaVersion := "2.11.1"
+
+crossScalaVersions ++= Seq("2.10.4", "2.11.1")
 
 publishTo := Some(Opts.resolver.sonatypeStaging)
 
