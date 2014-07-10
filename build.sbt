@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   "com.ning" % "async-http-client" % "1.8.12",
   "net.databinder" %% "unfiltered-netty-websockets" % "0.8.0" % "test",
   "net.databinder" %% "unfiltered-specs2" % "0.8.0" % "test",
-  "org.slf4j" % "slf4j-jdk14" % "1.6.2")
+  "org.slf4j" % "slf4j-nop" % "1.7.7")
 
 LsKeys.tags in LsKeys.lsync := Seq("websockets", "http")
 
@@ -24,9 +24,9 @@ buildInfoKeys := Seq[BuildInfoKey](version)
 
 buildInfoPackage := "tubesocks"
 
-scalaVersion := "2.11.1"
-
 crossScalaVersions ++= Seq("2.10.4", "2.11.1")
+
+scalaVersion := crossScalaVersions.value.last
 
 publishTo := Some(Opts.resolver.sonatypeStaging)
 
@@ -34,9 +34,8 @@ publishMavenStyle := true
 
 publishArtifact in Test := false
 
-licenses <<= (version)(v =>
-      Seq("MIT" ->
-          url("https://github.com/softprops/tubesocks/blob/%s/LICENSE" format v)))
+licenses += ("MIT" ->
+             url(s"https://github.com/softprops/${name.value}/blob/${version.value}/LICENSE"))
 
 homepage := some(url("https://github.com/softprops/tubesocks/#readme"))
 
