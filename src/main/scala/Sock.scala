@@ -39,19 +39,19 @@ object Sock {
   }
 
   def reconnecting
-    (times: Int = 0, pausing: FiniteDuration = 0.seconds)(uri: URI)(f: Handler): Socket =
+    (times: Int = 0, pausing: FiniteDuration = 0.seconds)(uri: URI)(f: Handler)(implicit ec: ExecutionContext): Future[Unit] =
      configure(identity)(times, pausing)(uri)(f)
 
   /** URI factory for returning a websocket
    *  @param str string uri
    *  @return a function that takes a Handler and returns a Socket */
-  def uri(str: String) =
-    apply(new URI(if (str.startsWith("ws")) str else s"ws://$str"))_
+  def uri(str: String)(f: Handler)(implicit ec: ExecutionContext) =
+    apply(new URI(if (str.startsWith("ws")) str else s"ws://$str"))(f)
 
   /** Default client-configured Socket
    *  @param uri websocket endpoint
    *  @param f Handler function */
-  def apply(uri: URI)(f: Handler): Socket =
+  def apply(uri: URI)(f: Handler)(implicit ec: ExecutionContext): Future[Unit] =
     configure(identity)()(uri)(f)
 
   /** Provides a means of customizing client configuration
@@ -61,19 +61,22 @@ object Sock {
   def configure
     (conf: AsyncHttpClientConfig.Builder => AsyncHttpClientConfig.Builder)
     (reconnectAttempts: Int = 0, pausing: FiniteDuration = 0.seconds)
-    (uri: URI)(f: Handler)(implicit ec: ExecutionContext): Socket = {
+    (uri: URI)(f: Handler)(implicit ec: ExecutionContext): Future[Unit] = {
+      def listen = {
+        val closer = Promise[Unit]()
+        val listener = Listen(f, () => closer.success(()))
       
-      val closer = Promise[Unit]()
-      val listener = Listen(f, () => closer.successful(()))
-//    implicit val success: retry.Success[Unit] = new retry.Success(_ => false)
-//    import retry.Defaults.timer
-      
-      new DefaultSocket(mkClient(conf(defaultConfig))
-                        .prepareGet(uri.toString)
-                        .execute(new WebSocketUpgradeHandler.Builder()
-                                 .addWebSocketListener(listener)
-                                 .build())
-                        .get())
+        new DefaultSocket(mkClient(conf(defaultConfig))
+                          .prepareGet(uri.toString)
+                          .execute(new WebSocketUpgradeHandler.Builder()
+                                   .addWebSocketListener(listener)
+                                   .build())
+                          .get())
+        closer.future
+      }
+      implicit val success: retry.Success[Unit] = new retry.Success(_ => false)
+      import retry.Defaults.timer
+      retry.Backoff(max = reconnectAttempts, delay = pausing)(() => listen)
     }
 
   private def defaultConfig =

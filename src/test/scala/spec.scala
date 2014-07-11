@@ -20,9 +20,9 @@ object TubesocksSpec extends Specification
     "receive messages" in {
       val promise = Promise[String]()
       Sock.uri(host.to_uri.toString.replace("http", "ws")) {
-        case tubesocks.Open(s) =>
+        case Open(s) =>
           s.send("i'm open")
-        case tubesocks.Message(t, _) =>
+        case Message(t, _) =>
           if (!promise.isCompleted) {
             promise.success(t)
           }
