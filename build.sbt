@@ -6,7 +6,10 @@ version := "0.1.1-SNAPSHOT"
 
 description := "A comfortable and fashionable way to have bi-directional conversations with modern web servers"
 
+resolvers += "sona" at "https://oss.sonatype.org/content/repositories/public"
+
 libraryDependencies ++= Seq(
+  "me.lessis" %% "retry-core" % "0.1.0",
   "com.ning" % "async-http-client" % "1.8.12",
   "net.databinder" %% "unfiltered-netty-websockets" % "0.8.0" % "test",
   "net.databinder" %% "unfiltered-specs2" % "0.8.0" % "test",

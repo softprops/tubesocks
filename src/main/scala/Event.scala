@@ -7,3 +7,5 @@ case class Close(socket: Socket) extends Event
 case class Error(exception: Throwable) extends Event
 case class Fragment(text: String) extends Event
 case class EOF(text: String) extends Event
+case class Ping(message: Array[Byte]) extends Event
+case class Pong(message: Array[Byte]) extends Event
